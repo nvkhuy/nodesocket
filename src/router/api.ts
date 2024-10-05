@@ -1,8 +1,18 @@
 import {Router} from 'express';
-import auth from '../controller/auth';
+import authController from '../controller/auth';
+import logMiddleware from '../middleware/log';
+import bodyParser from "body-parser";
 
-const api = Router();
+const api: Router = Router();
+api.use(bodyParser.json());
+api.use(logMiddleware.requestAt);
 
-api.post('/api/v1/auth/login', auth.Login)
+const auth: Router = Router();
+const v1: Router = Router();
 
-export {api as RouterV1}
+api.use('/v1', v1);
+v1.use('/auth', auth);
+auth.post('/login', authController.Login);
+
+
+export {api as RouterV1};
