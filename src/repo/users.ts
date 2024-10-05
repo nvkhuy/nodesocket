@@ -9,6 +9,10 @@ function find(username: string, password: string): User | undefined {
     return users.find(u => u.username === username && u.password === password);
 }
 
+function getByUsername(username: string): User | undefined {
+    return users.find(u => u.username === username);
+}
+
 export default {
-    find
+    find, getByUsername
 }
